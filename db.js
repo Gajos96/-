@@ -46,11 +46,11 @@ let db = module.exports = {
         let stmt = connection.prepare(
             'SELECT * FROM (' +
             'SELECT ROW_NUMBER() OVER (ORDER BY invoices.no) AS row,' +
-            'invoices.client ,Count(invoices.no) As count1 ' +
+            'invoices.client ,Count(invoices.no) As count ' +
             'from invoices ' +
             'WHERE no LIKE ? OR client LIKE ? ' +
             'GROUP BY invoices.client ' +
-            'Order by Count(invoices.no) desc ' +
+            'Order by Count(invoices.client) ' +
             ') as kro ' +
             'WHERE kro.row>=? AND kro.row<=?'
         )

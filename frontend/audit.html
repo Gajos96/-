@@ -29,11 +29,10 @@
 <table class="table table-stripped">
     <tr>
         <th>klient</th>
-        <th style="width: 10em; text-align: right;">Ilość Fakur</th>
+        <th style="width: 10em; text-align: right;">Ilość Faktur</th>
     </tr>
-    <tr ng-repeat="doc in ctrl.docs">
+    <tr ng-repeat="doc in ctrl.docs1">
         <td ng-bind="doc.client"></td>
-        <td ng-bind="doc.count1"></td>
-
+        <td ng-bind="doc.count"></td>
     </tr>
 </table>

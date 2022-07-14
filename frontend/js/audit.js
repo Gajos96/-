@@ -4,7 +4,7 @@ app.controller('AuditCtrl', ['$http',function($http) {
 
     const portionLength = 10
     
-    ctrl.docs = []
+    ctrl.docs1 = []
     ctrl.filter = ''
     ctrl.from = 1
     ctrl.to = portionLength
@@ -31,7 +31,7 @@ app.controller('AuditCtrl', ['$http',function($http) {
         let from = !refresh && ctrl.from ? ctrl.from : 1
         let to = !refresh && ctrl.to ? ctrl.to : portionLength
         $http.get('client?filter=' + ctrl.filter + '&from=' + from + '&to=' + to).then(function(rep) {
-            ctrl.docs = rep.data
+            ctrl.docs1 = rep.data
         }, function(err) {})
         ctrl.refreshCounts()
     }
