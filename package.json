@@ -1,0 +1,26 @@
+{
+  "name": "pai2022l",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/mariusz.jarocki/pai2022l.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/mariusz.jarocki/pai2022l/issues"
+  },
+  "homepage": "https://gitlab.com/mariusz.jarocki/pai2022l#readme",
+  "dependencies": {
+    "cookies": "^0.8.0",
+    "node-static": "^0.7.11",
+    "sqlite3": "^5.0.2",
+    "uuid": "^8.3.2"
+  }
+}

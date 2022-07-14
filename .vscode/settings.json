@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "pai2022l",
+            "database": "pai2022l.sqlite"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

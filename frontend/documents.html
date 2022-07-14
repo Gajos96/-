@@ -1,0 +1,44 @@
+<!-- W widoku audyt wyświetlić dane zawierające unikalnych klientów (kupujących) z faktur,
+ wraz z liczbą dokumentów z nimi związanych (w zapytaniu użyć COUNT(*) i GROUP BY client).
+  Przenieść tam mechanizm filtrowania przez nazwę ("lupka") z widoku Dokumenty. Nie implementować stronicowania. -->
+
+
+<div style="float: right;">
+    <form class="form form-inline">
+        <i class="fa fa-search"></i>
+        <input type="text" class="form-control" ng-model="ctrl.filter" ng-change="ctrl.readData(true)"/>
+    </form>
+</div>
+
+<h1>Dokumenty
+    <i class="label label-success" ng-bind="ctrl.filtered"></i>
+    <i class="label label-primary" ng-bind="ctrl.count"></i>
+</h1>
+
+<center>
+    <button 
+        class="btn" ng-repeat="portion in ctrl.portions" ng-bind="portion.text"
+        ng-disabled="portion.from == ctrl.from"
+        ng-class="portion.from == ctrl.from ? 'btn-danger' : 'btn-default'"
+        ng-click="ctrl.setFromTo(portion.from, portion.to)">
+    </button>
+</center>
+
+<p>&nbsp;</p>
+
+<table class="table table-stripped">
+    <tr>
+        <th>#</th>
+        <th>numer</th>
+        <th>klient</th>
+        <th style="width: 10em; text-align: right;">#towarów</th>
+        <th style="width: 10em; text-align: right;">wartość</th>
+    </tr>
+    <tr ng-repeat="doc in ctrl.docs">
+        <td ng-bind="doc.row"></td>
+        <td ng-bind="doc.no"></td>
+        <td ng-bind="doc.client"></td>
+        <td style="text-align: right;" ng-bind="doc.count"></td>
+        <td style="text-align: right;" ng-bind="doc.value | number:2"></td>
+    </tr>
+</table>

@@ -1,0 +1,83 @@
+<h1>
+  <form class="form form-inline">
+      Faktura
+      <input type="text" class="form-control" ng-model="ctrl.invoice.no" placeholder="nr faktury"/>
+      <input type="text" class="form-control" ng-model="ctrl.invoice.client" placeholder="kupujący"/>
+      <div style="float: right;">
+        <span style="font-size: 50%">nr faktury</span>
+        <select class="form-control" ng-model="ctrl.invoice.no" ng-options="invoice.no as invoice.no for invoice in ctrl.invoices" ng-change="ctrl.load()"></select>
+        </select>
+      </div>
+    </form>
+</h1>
+<table class="table table-bordered">
+<tr>
+    <th style="width: 3em; text-align: center;">#</th>
+    <th style="width: 50%;">Nazwa</th>
+    <th>Ilość</th>
+    <th>Cena</th>
+    <th style="width: 7em;">%VAT</th>
+    <th>Wartość</th>
+    <th style="width: 8em;">&nbsp;</th>
+</tr>
+<!-- wiersz tabelki faktury -->
+<tr ng-repeat="row in ctrl.invoice.rows">
+    <td ng-bind="$index + 1" style="text-align: center;"></td>
+    <td>
+    <span ng-bind="row.name" ng-if="!row.edited"></span>
+    <input type="text" class="form-control" ng-model="ctrl.editedRow.name" ng-if="row.edited"/>
+    </td>
+    <td style="text-align: right;">
+    <span ng-bind="row.quantity | number:2" ng-if="!row.edited"></span>
+    <input type="number" class="form-control" min="0" ng-model="ctrl.editedRow.quantity" ng-if="row.edited"/>
+    </td>
+    <td style="text-align: right;">
+    <span ng-bind="row.price | number:2" ng-if="!row.edited"></span>
+    <input type="number" class="form-control" min="0" ng-model="ctrl.editedRow.price" ng-if="row.edited"/>
+    </td>
+    <td style="text-align: right;">
+    <span ng-bind="row.vat" ng-if="!row.edited"></span>
+    <select class="form-control" ng-model="ctrl.editedRow.vat" ng-if="row.edited" ng-options="vat.percent as vat.label for vat in ctrl.vats"></select>
+    </td>
+    <td ng-bind="ctrl.value(row) | number:2" style="text-align: right;" ng-if="!row.edited"></td>
+    <td ng-bind="ctrl.value(ctrl.editedRow) | number:2" style="text-align: right;" ng-if="row.edited"></td>
+    <td style="text-align: right;">
+    <span ng-if="!row.edited">
+        <button class="btn btn-primary btn-sm fa fa-edit" ng-click="ctrl.editRow($index)" ng-disabled="ctrl.isRowEdited() || ctrl.newRow.edited"></button>
+        <button class="btn btn-danger btn-sm fa fa-trash" ng-click="ctrl.delRow($index)" ng-disabled="ctrl.isRowEdited() || ctrl.newRow.edited"></button>
+    </span>
+    <span ng-if="row.edited">
+        <button class="btn btn-success btn-sm fa fa-check" ng-click="ctrl.updateRow($index)" ng-disabled="ctrl.editedRow.name.length <= 0 || ctrl.value(ctrl.editedRow) <= 0"></button>
+        <button class="btn btn-default btn-sm fa fa-times" ng-click="row.edited = false"></button>
+    </span>
+    </td>
+</tr>
+<!-- wiersz dla nowej pozycji faktury -->
+<tr>
+    <td>&nbsp;</td><td>
+    <input type="text" class="form-control" ng-model="ctrl.newRow.name" ng-if="ctrl.newRow.edited"/>
+    </td><td>
+    <input type="number" class="form-control" min="0" ng-model="ctrl.newRow.quantity" ng-if="ctrl.newRow.edited"/>
+    </td><td>
+    <input type="number" class="form-control" min="0" ng-model="ctrl.newRow.price" ng-if="ctrl.newRow.edited"/>
+    </td><td>
+    <select class="form-control" ng-model="ctrl.newRow.vat" ng-if="ctrl.newRow.edited" ng-options="vat.percent as vat.label for vat in ctrl.vats"></select>
+    </td>
+    <td style="text-align: right;">
+    <span ng-bind="ctrl.value(ctrl.newRow) | number:2" ng-if="ctrl.newRow.edited"></span>
+    </td>
+    <td style="text-align: right;">
+    <button class="btn btn-primary fa fa-plus" ng-click="ctrl.editNewRow()" ng-if="!ctrl.newRow.edited" ng-disabled="ctrl.isRowEdited()"></button>
+    <button class="btn btn-success fa fa-check" ng-click="ctrl.addRow()" ng-if="ctrl.newRow.edited" ng-disabled="ctrl.newRow.name.length <= 0 || ctrl.value(ctrl.newRow) <= 0"></button>
+    <button class="btn btn-default fa fa-times" ng-click="ctrl.newRow.edited = false" ng-if="ctrl.newRow.edited"></button>
+    </td>
+</tr>
+<!-- wiersz podsumowania faktury -->
+<tr>
+    <td style="text-align: right; font-weight: bold;" colspan="6" ng-bind="ctrl.total() | number:2"></td>
+    <td style="text-align: right;">
+        <button class="btn btn-success fa fa-external-link" ng-click="ctrl.sendInvoice()" ng-disabled="ctrl.invoice.no.length <= 0 || ctrl.total <= 0 || ctrl.isRowEdited() || ctrl.newRow.edited"></button>
+        <button class="btn btn-danger fa fa-trash" ng-click="ctrl.clearRows()" ng-disabled="ctrl.invoice.rows.length <= 0 || ctrl.isRowEdited() || ctrl.newRow.edited"></button>
+    </td>
+</tr>
+</table>
